@@ -4,7 +4,7 @@ function index(req, res) {
   Flight.find({})
   .then(flights => {
     res.render('flights/index', {
-      title: 'Flights',
+      title: 'All Flights',
       flights: flights
     })
   })
