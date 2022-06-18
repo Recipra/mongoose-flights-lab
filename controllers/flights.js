@@ -49,6 +49,35 @@ function show(req, res) {
   })
 }
 
+function edit(req, res) {
+  const newPlane = new Flight()
+  const dateTime = newPlane.departs
+  const departsDate = dateTime.toISOString().slice(0, 16)
+  Flight.findById(req.params.id)
+  .then(flight => {
+    res.render('flights/edit', {
+      title: `Edit Flight ${flight.airline} #${flight.flightNo}`,
+      flight: flight,
+      departsDate
+    })
+  })
+  .catch(error => {
+    console.log(error)
+    res.redirect('/flights')
+  })
+}
+
+function update(req, res) {
+  Flight.findByIdAndUpdate(req.params.id, req.body, {new: true})
+  .then(flight => {
+    res.redirect(`/flights/${req.params.id}`)
+  })
+  .catch(error => {
+    console.log(error)
+    res.redirect('/flights')
+  })
+}
+
 function deleteFlight(req, res) {
   Flight.findByIdAndDelete(req.params.id)
   .then(flight => {
@@ -65,5 +94,7 @@ export {
   newFlight as new,
   create,
   show,
+  edit,
+  update,
   deleteFlight as delete
 }
