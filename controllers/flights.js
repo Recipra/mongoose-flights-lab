@@ -1,7 +1,7 @@
 import { Flight } from "../models/flight.js"
 
 function index(req, res) {
-  Flight.find({})
+  Flight.find({}).sort({'departs': "asc"})
   .then(flights => {
     res.render('flights/index', {
       title: 'All Flights',
