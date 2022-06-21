@@ -3,9 +3,15 @@ import { Flight } from "../models/flight.js"
 function index(req, res) {
   Flight.find({}).sort({'departs': "asc"})
   .then(flights => {
+    //if the date has passed, turn the flight color to red
+    flights.forEach(flight => {
+      if (flight.departs.toISOString() < new Date().toISOString()) {
+        flight.color = 'red'
+      }
+    })
     res.render('flights/index', {
       title: 'All Flights',
-      flights: flights
+      flights: flights,
     })
   })
   .catch(error => {
