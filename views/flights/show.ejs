@@ -3,7 +3,7 @@
 <%- include('../partials/nav') %>
 
 <main>
-  <h1>Flight <%= flight.airline %> #<%= flight.flightNo %></h1>
+  <h1>Flight: <%= flight.airline %> #<%= flight.flightNo %></h1>
   <table>
     <thead>
       <tr>
@@ -35,6 +35,41 @@
       </tr>
     </tbody>
   </table>
+  <h2>Tickets</h2>
+  <form id="add-ticket-form" action="/flights/<%= flight._id %>/tickets" method="POST">
+    <label for="seat-input">Seat:</label>
+    <input name="seat" required pattern="[A-F][1-9]\d?" placeholder="e.g. 'B9' or 'D30'">
+    <label for="price-input">Price(USD):</label>
+    <input type="number" name="price">
+    <button type="submit">Add Ticket</button>
+  </form>
+  <% if (flight.tickets.length) { %>
+    <table>
+      <thead>
+        <tr>
+          <td>Date</td>
+          <td>Ticket</td>
+          <td>Price</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% flight.tickets.forEach(ticket => { %>
+          <tr>
+            <td><%= ticket.createdAt.toLocaleDateString() %></td>
+            <td><%= ticket.seat %></td>
+            <td><%= ticket.price %></td>
+            <td>
+              <form action="/flights/<%= flight._id %>/<%= flight.tickets %>?_method=DELETE" class="delete-form" method="POST">
+                <button type="submit">Delete Ticket</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <h3>No Tickets Yet</h3>
+  <% } %>
 </main>
 
 <%- include('../partials/footer') %>

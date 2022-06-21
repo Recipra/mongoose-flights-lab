@@ -27,6 +27,10 @@ function newFlight(req, res) {
     title: 'Add Flight',
     departsDate
   })
+  .catch(error => {
+    console.log(error)
+    res.redirect('/flights')
+  })
 }
 
 function create(req, res) {
@@ -53,7 +57,22 @@ function show(req, res) {
   })
   .catch(error => {
     console.log(error)
-    res.redirect('/skills')
+    res.redirect('/flights')
+  })
+}
+
+function createTicket(req, res) {
+  Flight.findById(req.params.id)
+  .then(flight => {
+    flight.tickets.push(req.body)
+    flight.save()
+    .then(() => {
+      res.redirect(`/flights/${flight._id}`)
+    })
+  })
+  .catch(error => {
+    console.log(error)
+    res.redirect('/flights')
   })
 }
 
@@ -97,12 +116,29 @@ function deleteFlight(req, res) {
   })
 }
 
+function deleteTicket(req, res) {
+  Flight.findById(req.params.id)
+  .then(flight => {
+    flight.tickets.pop(req.body)
+    flight.save()
+    .then(() => {
+      res.redirect(`/flights/${flight._id}`)
+    })
+  })
+  .catch(error => {
+    console.log(error)
+    res.redirect('/flights')
+  })
+}
+
 export {
   index,
   newFlight as new,
   create,
   show,
+  createTicket,
   edit,
   update,
-  deleteFlight as delete
+  deleteFlight as delete,
+  deleteTicket
 }
