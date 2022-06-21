@@ -3,7 +3,6 @@ import { Flight } from "../models/flight.js"
 function index(req, res) {
   Flight.find({}).sort({'departs': "asc"})
   .then(flights => {
-    //if the date has passed, turn the flight color to red
     flights.forEach(flight => {
       if (flight.departs.toISOString() < new Date().toISOString()) {
         flight.color = 'red'
@@ -31,6 +30,9 @@ function newFlight(req, res) {
 }
 
 function create(req, res) {
+  for (let key in req.body) {
+    if (req.body[key] === '') delete req.body[key]
+  }
   Flight.create(req.body)
   .then(flight => {
     res.redirect('/flights')
