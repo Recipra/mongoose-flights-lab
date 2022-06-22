@@ -1,11 +1,55 @@
 body {
   background-image: url(https://images.squarespace-cdn.com/content/v1/59c9bc7a2aeba5bc05016b0d/1629155817062-U6N364G69XMDZMXZORZ8/Cloud+Shadows3Sm.JPG);
-  padding: 50px;
+  margin: 5px 5px 0 5px;
+  display: grid;
+  grid-template-rows: 40px 1fr;
+  grid-template-areas:
+    "nav"
+    "main";
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+nav {
+  grid-area: nav;
+  border-radius: 20px;
+  background-color: white;
+  width: 90vw;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  opacity: 0.70;
+}
+
+nav > i {
+  width: 34px;
+  object-fit: contain;
+  margin-left: 25px;
+  margin-right: auto;
+}
+
+nav > a {
+  margin: 20px;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 20px;
+  color: black;
+}
+
+nav > a:visited {
+  color: black;
+}
+
+nav > a:hover {
+  color: white;
+  background-color: #848c8d;
+}
+
+nav > a.active {
+  color: #1789ca;
+}
+
 a {
-  color: #00B7FF;
+  color: #1789ca;
 }
 
 .red {
